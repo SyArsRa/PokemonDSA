@@ -7,7 +7,7 @@ template <typename ct>
 class BSTNode{
   public:
 	ct* data;
-    int balance = 0;
+    int height = 0;
 	BSTNode* leftChild = NULL;
 	BSTNode* rightChild = NULL;
 };

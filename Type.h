@@ -1,8 +1,8 @@
 #ifndef Type_H
 #define Type_H
-#include "LinkedList.h"
 #include <iostream> 
-#include "Redblack.h"
+#include "BST.h"
+#include "LinkedList.h"
 using namespace std;
 
 
@@ -21,12 +21,12 @@ class Type{
         string id = "";
         //LinkedList beacuses length of linkedlist will be less than 20
         LinkedList<TypeNode>* typeNodes = NULL;
-        RBBST<Pokemon>* pokemonNodes = NULL;
-        RBBST<Move>* moveNodes = NULL;
+        BST<Pokemon>* pokemonNodes = NULL;
+        BST<Move>* moveNodes = NULL;
         Type(){
             typeNodes = new LinkedList<TypeNode>();
-            pokemonNodes = new RBBST<Pokemon>();
-            moveNodes = new RBBST<Move>();
+            pokemonNodes = new BST<Pokemon>();
+            moveNodes = new BST<Move>();
         }
         void addNode(Type* type2,float mul){
             TypeNode* nn = new TypeNode();
