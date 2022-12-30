@@ -12,6 +12,7 @@ class Move;
 
 class TypeNode{
     public:
+        string id = "";
         Type* defence = NULL;
         float multiplier = 0;    
 };
@@ -30,6 +31,7 @@ class Type{
         }
         void addNode(Type* type2,float mul){
             TypeNode* nn = new TypeNode();
+            nn->id = type2->id;
             nn->defence = type2;
             nn->multiplier = mul;
             typeNodes->insertAtFront(nn);

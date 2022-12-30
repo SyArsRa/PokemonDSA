@@ -6,6 +6,7 @@
 #include <sstream>
 #include "hashmap.h"
 #include "Type.h"
+#include "edges.h"
 using namespace std;
 class ParserClass{
     public:
@@ -136,7 +137,6 @@ class ParserClass{
                 while(getline(s,word,',')){
                     content.push_back(word);
                 }
-                
                 transform(content[0].begin(), content[0].end(), content[0].begin(), ::toupper);
                 transform(content[1].begin(), content[1].end(), content[1].begin(), ::toupper);
                 
@@ -144,6 +144,7 @@ class ParserClass{
                 if(!curr){
                     curr = new Type();
                     curr->id = content[0];
+                    data->insert(curr);
                 }
                 type2 = data->search(content[1]);
                 if(type2 == NULL){
@@ -152,6 +153,7 @@ class ParserClass{
                     data->insert(type2);
                 }
                 curr->addNode(type2,stof(content[3]));
+                //curr->typeNodes->printlist();
             }    
             fin.close();
         }
@@ -190,6 +192,27 @@ class ParserClass{
                 }
                 curr->condition = content[3];
                 curr->type = content[4]; 
+            }    
+            fin.close();
+        }
+        void Wparser(string FILENAME,Hashmap<Pokemon>* pokemonData){
+            cout<<"                Beats                 "<<endl;
+            cout<<"________________________________________"<<endl;
+            fstream fin;
+            fin.open(FILENAME, ios::in);
+            string row;
+            string word;
+            vector<string> content;
+            while(getline(fin,row)){
+                content.clear();
+                stringstream s(row);
+                while(getline(s,word,',')){
+                    content.push_back(word);
+                }
+
+                transform(content[0].begin(), content[0].end(), content[0].begin(), ::toupper);
+                transform(content[1].begin(), content[1].end(), content[1].begin(), ::toupper);                
+                check(content[0],content[1],pokemonData); 
             }    
             fin.close();
         }

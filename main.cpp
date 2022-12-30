@@ -22,9 +22,7 @@ int main(){
     p->parser("data\\Pokemon.csv",pokemonData,typeData);
     p->parser("data\\Moves.csv",moveData,typeData);
     p->parser("data\\Evo.csv",pokemonData);
-
-    pokemonData->search("Blastoise")->typeOf->typeNodes->printlist();
-    pokemonData->search("Charmander")->typeOf->moveNodes->inorder();
-
+    p->Wparser("data\\Beats.csv",pokemonData);
+    pokemonData->search("Blastoise")->edges->inorder();
     return 0;
 }

@@ -3,6 +3,7 @@
 
 #include <iostream> 
 #include "Type.H"
+#include "BST.h"
 using namespace std;
 
 class Pokemon{
@@ -20,6 +21,7 @@ class Pokemon{
         int level = 999;
         string condition = "";
         string type = "";
+        BST<Pokemon>* edges = new BST<Pokemon>;
         Pokemon(){}
 };
 ostream& operator<<(ostream& stream, Pokemon* pokemon) {

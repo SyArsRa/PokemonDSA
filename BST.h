@@ -7,7 +7,7 @@ template <typename ct>
 class BSTNode{
   public:
 	ct* data;
-    int height = 0;
+    int height = 1;
 	BSTNode* leftChild = NULL;
 	BSTNode* rightChild = NULL;
 };
@@ -34,6 +34,7 @@ class BST{
 			}
 		}
 	}
+    
 	void insertWithoutDuplication(ct* val){
 		search(val);
 		if(loc != NULL){
@@ -43,8 +44,8 @@ class BST{
 		BSTNode<ct>* nn = new BSTNode<ct>();
         nn->data = val;
         if(ploc == NULL){
-        root = nn;
-        return;
+            root = nn;
+            return;
         }
         
         if(ploc->data->id >= val->id){

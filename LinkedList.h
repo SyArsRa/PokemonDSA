@@ -57,16 +57,30 @@ class LinkedList{
 			}
 			cout<<endl;
 		}
-		void search(datatype* value){
+		datatype* search(datatype* value){
 			loc = start;
 			preloc = NULL;
-			while(loc != NULL && loc->data < value){
+			while(loc != NULL){
 				preloc = loc;
 				loc = loc->next;
 			}
 			if(loc != NULL && value != loc->data){
 				loc = NULL;
 			} 
+			return loc->data;
+			
+		}
+		datatype* search(string value){
+			loc = start;
+			preloc = NULL;
+			while(loc != NULL && loc->data->id != value){
+				preloc = loc;
+				loc = loc->next;
+			}
+			if(loc == NULL){
+				return NULL;
+			} 
+			return loc->data;
 			
 		}
 		void insertSorted(datatype* value){
