@@ -27,6 +27,11 @@ class Hashmap{
         int hashfunction(string value){
             return hashfunc(value) % maxsize;
         }
+
+        string get(Pokemon* pokemon){
+    return pokemon->id;
+}
+
         //Inserting into hashmap
         void insert(type* obj){
             int index = hashfunction(obj->id);

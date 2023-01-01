@@ -72,12 +72,13 @@ class ParserClass{
                 curr->id = content[1];
                 typeN = typeData->search(content[2]);
                 curr->typeOf = typeN; 
-                curr->hp = stoi(content[3]);
-                curr->attack = stoi(content[4]);
-                curr->defense = stoi(content[5]);
-                curr->spattack = stoi(content[6]);
-                curr->spdef = stoi(content[7]);
-                curr->speed = stoi(content[8]);
+                curr-> total = stoi(content[3]);
+                curr->hp = stoi(content[4]);
+                curr->attack = stoi(content[5]);
+                curr->defense = stoi(content[6]);
+                curr->spattack = stoi(content[7]);
+                curr->spdef = stoi(content[8]);
+                curr->speed = stoi(content[9]);
 
                 typeN->addNode(curr);
                 data->insert(curr);

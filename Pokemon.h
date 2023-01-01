@@ -17,6 +17,7 @@ class Pokemon{
         int spattack = 0;
         int spdef = 0;
         int speed = 0;
+        int total = 0;
         //stores evolution
         Pokemon* evo = NULL;
         //stores last form
@@ -34,4 +35,4 @@ ostream& operator<<(ostream& stream, Pokemon* pokemon) {
   return stream;
 }
 
-#endif /* Pokemon_H */
+#endif /* Pokemon_H */  

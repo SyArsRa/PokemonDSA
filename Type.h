@@ -54,8 +54,9 @@ class Type{
 
 //overwritting cout operator for printing Type
 ostream& operator<<(ostream& stream, Type* type) {
-  stream << type->id;
-  return stream;
+    //add red colour to type
+    stream << "\033[1;31m" << type->id << "\033[0m";
+    return stream;
 }
 //overwritting cout operator for printing TypeNode
 ostream& operator<<( ostream &output, const TypeEdge* node)

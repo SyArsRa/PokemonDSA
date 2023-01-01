@@ -21,7 +21,7 @@ class BST{
 	bool isEmpty(){
 		return root == NULL;
 	}
-	void search(ct* val){
+	ct* search(ct* val){
 		loc = root;
 		ploc = NULL;
 		while(loc != NULL && loc->data->id != val->id){
@@ -33,27 +33,104 @@ class BST{
 				loc = loc->rightChild;
 			}
 		}
+        if(loc){
+            return loc->data;
+        }
+        return NULL;
 	}
-    
-	void insertWithoutDuplication(ct* val){
-		search(val);
-		if(loc != NULL){
-			return;
-		}
-		BSTNode<ct>* nn = new BSTNode<ct>();
-        nn->data = val;
-        if(ploc == NULL){
+    int height(BSTNode<ct>* curr){
+        if(curr == NULL){
+            return 0;
+        }
+        return curr->height;
+    }
+    int difference(BSTNode<ct>* curr){
+        if(curr == NULL){
+            return 0;
+        }
+        int lHeight = height(curr->leftChild);
+        int rHeight = height(curr->rightChild);
+        curr->height = 1 + max(lHeight,rHeight);
+        return lHeight - rHeight;
+    }
+    BSTNode<ct>* rRotate(BSTNode<ct>* curr){
+        BSTNode<ct>* newRoot = curr->leftChild;
+        curr->leftChild = newRoot->rightChild;
+        newRoot->rightChild = curr;
+        difference(curr);
+        difference(newRoot);
+        return newRoot;
+    }
+    BSTNode<ct>* lRotate(BSTNode<ct>* curr){
+        BSTNode<ct>* newRoot = curr->rightChild;
+        curr->rightChild = newRoot->leftChild;
+        newRoot->leftChild = curr;
+        difference(curr);
+        difference(newRoot);
+        return newRoot;
+    }
+    BSTNode<ct>* lrRotate(BSTNode<ct>* curr){
+        curr->leftChild = lRotate(curr->leftChild);
+        curr = rRotate(curr);
+        return curr;
+    }
+    BSTNode<ct>* rlRotate(BSTNode<ct>* curr){
+        curr->rightChild = rRotate(curr->rightChild);
+        curr = lRotate(curr);
+        return curr;
+    }
+    BSTNode<ct>* balance(BSTNode<ct>* curr){
+        int balFactor = difference(curr);
+        if(balFactor > 1){
+            if(difference(curr->leftChild) >= 0){
+                curr = rRotate(curr);
+            }
+            else{
+                curr = lrRotate(curr);
+            }
+        }
+        else if(balFactor < -1){
+            if(difference(curr->leftChild) <= 0){
+                curr = lRotate(curr);
+            }
+            else{
+                curr = rlRotate(curr);
+            }
+        }
+        return curr;
+    }
+    void insertWithoutDuplication(ct* val){
+		if(root == NULL){
+            BSTNode<ct>* nn = new BSTNode<ct>();
+            nn->data = val;
             root = nn;
             return;
         }
-        
-        if(ploc->data->id >= val->id){
-            ploc->leftChild = nn;
+        if(root->data->id >= val->id){
+            root->leftChild = insertWithoutDuplication(val,root->leftChild);
         }
         else{
-            ploc->rightChild = nn;
+            root->rightChild = insertWithoutDuplication(val,root->rightChild);
+            
         }
-    } 	
+        root = balance(root);
+    }
+	BSTNode<ct>* insertWithoutDuplication(ct* val,BSTNode<ct>* curr){
+		if(curr == NULL){
+            BSTNode<ct>* nn = new BSTNode<ct>();
+            nn->data = val;
+            return nn;
+        }
+        if(curr->data->id >= val->id){
+            curr->leftChild = insertWithoutDuplication(val,curr->leftChild);
+        }
+        else{
+            curr->rightChild = insertWithoutDuplication(val,curr->rightChild);
+            
+        }
+        curr = balance(curr);
+        return curr;
+    }
     void inorder(){
         if(root == NULL){
         return;
@@ -84,45 +161,6 @@ class BST{
         }
         return temp->data;
     }
-    void printLeaf(BSTNode<ct>* curr){
-        if(curr == NULL){
-        return;
-        }
-        if(curr->leftChild == NULL && curr->rightChild == NULL){
-        cout<<curr->data<<endl;
-        return;
-        }
-        printLeaf(curr->leftChild);
-        printLeaf(curr->rightChild);
-        return;
-    }
-    int countLeaf(int count,BSTNode<ct>* curr){
-        if(curr == NULL){
-        return 0;
-        }
-        if(curr->leftChild == NULL && curr->rightChild == NULL){
-        count++;
-        }
-        else{
-        count += countLeaf(root->leftChild);
-        count += countLeaf(root->rightChild);
-        }
-        return count;
-    }
-    int countInternal(int count,BSTNode<ct>* curr){
-        if(curr == NULL){
-        return 0;
-        }
-        if(curr->leftChild == NULL && curr->rightChild == NULL){
-        return 0;
-        }
-        else{
-        count++;
-        count += countInternal(root->leftChild);
-        count += countInternal(root->rightChild);
-        }
-        return count;
-    }
     int depthOfTree(BSTNode<ct>* curr){
         if(curr == NULL){
         return -1;
@@ -135,44 +173,6 @@ class BST{
         }
         return max(heightOfTree(curr->rightChild,cHeight+1),heightOfTree(curr->leftChild,cHeight+1));
     }
-    void deleteNode(ct val){
-        search(val);
-        if(!loc){
-            cout<<"Value Not Found"<<endl;
-            return;
-        }
-        BSTNode<ct>* replace = loc->rightChild;
-        if(loc->leftChild && loc->rightChild){
-            BSTNode<ct>* prereplace = loc;
-            while(replace->leftChild){
-                prereplace = replace;
-                replace = replace->leftChild;
-            }
-            prereplace->leftChild = replace->rightChild;
-            replace->leftChild = loc->leftChild;
-            replace->rightChild = loc->rightChild;
-        }
-        else if (loc->leftChild){
-            replace = loc->leftChild;
-        }
-        else if (loc->rightChild){
-            replace = loc->rightChild;
-        }
-        else{
-            replace = NULL;
-        }
-        
-        if(!ploc){
-                root = replace;
-            } 
-            else if(ploc->leftChild == loc) {
-                ploc->leftChild = replace;
-            }
-            else{
-                ploc->rightChild = replace;
-            }
-        delete loc;
-    }
     void destroyNode(BSTNode<ct>* curr){
         if(curr == NULL){
             return;
@@ -181,6 +181,7 @@ class BST{
         destroyNode(curr->leftChild);
         delete curr; 
         return;
+
     }
     void destroy(){
         destroyNode(root);
