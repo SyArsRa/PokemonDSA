@@ -9,10 +9,48 @@
 #include "edges.h"
 using namespace std;
 class ParserClass{
-    public:
+    public:  
+        //Parses Type.csv into a hashmap for Type
+        void parser(string FILENAME,Hashmap<Type>* data){
+            cout<<"\e[1;33m                Types.csv loading..                 "<<endl;
+            fstream fin;
+            fin.open(FILENAME, ios::in);
+            string row;
+            getline(fin,row);
+            string word;
+            vector<string> content;
+            Type* curr = NULL;
+            Type* type2 = NULL;
+            while(getline(fin,row)){
+                content.clear();
+                stringstream s(row);
+                while(getline(s,word,',')){
+                    content.push_back(word);
+                }
+                transform(content[0].begin(), content[0].end(), content[0].begin(), ::toupper);
+                transform(content[1].begin(), content[1].end(), content[1].begin(), ::toupper);
+                
+                curr = data->search(content[0]);
+                if(!curr){
+                    curr = new Type();
+                    curr->id = content[0];
+                    data->insert(curr);
+                }
+                type2 = data->search(content[1]);
+                if(type2 == NULL){
+                    type2 = new Type();
+                    type2->id = content[1];
+                    data->insert(type2);
+                }
+                curr->addEdge(type2,stof(content[3]));
+                //curr->typeNodes->printlist();
+            }    
+            fin.close();
+        }
+        
+        //Parses Pokemon.csv into a hashmap for Pokemons
         void parser(string FILENAME,Hashmap<Pokemon>* data,Hashmap<Type>* typeData){
-            cout<<"                Pokemon                 "<<endl;
-            cout<<"________________________________________"<<endl;
+            cout<<"\e[1;33m                Pokemon.csv loading...                 "<<endl;
             fstream fin;
             fin.open(FILENAME, ios::in);
             string row;
@@ -46,10 +84,9 @@ class ParserClass{
             }    
             fin.close();
         }
-
+        //Parses Move.csv into a hashmap for Move
         void parser(string FILENAME,Hashmap<Move>* data,Hashmap<Type>* typeData){
-            cout<<"                MOVES                  "<<endl;
-            cout<<"________________________________________"<<endl;
+            cout<<"\e[1;33m                Moves.csv loading...                  "<<endl;
             fstream fin;
             fin.open(FILENAME, ios::in);
             string row;
@@ -119,48 +156,9 @@ class ParserClass{
             fin.close();
         }
 
-
-        void parser(string FILENAME,Hashmap<Type>* data){
-            cout<<"                TYPES                 "<<endl;
-            cout<<"________________________________________"<<endl;
-            fstream fin;
-            fin.open(FILENAME, ios::in);
-            string row;
-            getline(fin,row);
-            string word;
-            vector<string> content;
-            Type* curr = NULL;
-            Type* type2 = NULL;
-            while(getline(fin,row)){
-                content.clear();
-                stringstream s(row);
-                while(getline(s,word,',')){
-                    content.push_back(word);
-                }
-                transform(content[0].begin(), content[0].end(), content[0].begin(), ::toupper);
-                transform(content[1].begin(), content[1].end(), content[1].begin(), ::toupper);
-                
-                curr = data->search(content[0]);
-                if(!curr){
-                    curr = new Type();
-                    curr->id = content[0];
-                    data->insert(curr);
-                }
-                type2 = data->search(content[1]);
-                if(type2 == NULL){
-                    type2 = new Type();
-                    type2->id = content[1];
-                    data->insert(type2);
-                }
-                curr->addNode(type2,stof(content[3]));
-                //curr->typeNodes->printlist();
-            }    
-            fin.close();
-        }
-
+        //Parses Evolution.csv, searches for Pokemon and its Evolution form in Pokemon hashmap and then connect them together using pointers
         void parser(string FILENAME,Hashmap<Pokemon>* data){
-            cout<<"                Evolution                 "<<endl;
-            cout<<"________________________________________"<<endl;
+            cout<<"\e[1;33m                Evolution.csv loading...             "<<endl;
             fstream fin;
             fin.open(FILENAME, ios::in);
             string row;
@@ -195,9 +193,9 @@ class ParserClass{
             }    
             fin.close();
         }
+        //Parses Beats.csv and calls check function with column 1 and 2 and PokemonHashmap as input
         void Wparser(string FILENAME,Hashmap<Pokemon>* pokemonData){
-            cout<<"                Beats                 "<<endl;
-            cout<<"________________________________________"<<endl;
+            cout<<"\e[1;33m                Beats.csv loading...               "<<endl;
             fstream fin;
             fin.open(FILENAME, ios::in);
             string row;
@@ -215,6 +213,7 @@ class ParserClass{
                 check(content[0],content[1],pokemonData); 
             }    
             fin.close();
+            cout<<"\e[1;92m                All files loaded"<<endl;
         }
 
         

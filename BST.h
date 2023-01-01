@@ -38,7 +38,6 @@ class BST{
 	void insertWithoutDuplication(ct* val){
 		search(val);
 		if(loc != NULL){
-			cout<<"Value already in the BST"<<endl;
 			return;
 		}
 		BSTNode<ct>* nn = new BSTNode<ct>();

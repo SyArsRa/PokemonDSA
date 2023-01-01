@@ -18,6 +18,7 @@ class Move{
         int prob = 100;
         Move(){}
 };
+//cout overwrite to print move object
 ostream& operator<<(ostream& stream, Move* move) {
   stream << move->id;
   return stream;

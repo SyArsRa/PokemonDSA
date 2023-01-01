@@ -10,46 +10,55 @@ class Type;
 class Pokemon;
 class Move;
 
-class TypeNode{
+//class of each edge in linkedlist  with its details
+class TypeEdge{
     public:
         string id = "";
         Type* defence = NULL;
         float multiplier = 0;    
 };
 
+//class for sotring type Type
 class Type{
     public:
         string id = "";
         //LinkedList beacuses length of linkedlist will be less than 20
-        LinkedList<TypeNode>* typeNodes = NULL;
+        //Linkedlist stores each edge
+        LinkedList<TypeEdge>* typeEdges = NULL;
         BST<Pokemon>* pokemonNodes = NULL;
         BST<Move>* moveNodes = NULL;
+        //constructor intializes each pointer
         Type(){
-            typeNodes = new LinkedList<TypeNode>();
+            typeEdges = new LinkedList<TypeEdge>();
             pokemonNodes = new BST<Pokemon>();
             moveNodes = new BST<Move>();
         }
-        void addNode(Type* type2,float mul){
-            TypeNode* nn = new TypeNode();
+        //function that adds new edges to linkedlist
+        void addEdge(Type* type2,float mul){
+            TypeEdge* nn = new TypeEdge();
             nn->id = type2->id;
             nn->defence = type2;
             nn->multiplier = mul;
-            typeNodes->insertAtFront(nn);
+            typeEdges->insertAtFront(nn);
         }     
+        //function to add nodes to pokemonNodes BST
         void addNode(Pokemon* pokemon){
             pokemonNodes->insertWithoutDuplication(pokemon);
         }
+        //function to add nodes to moveNodes BST
         void addNode(Move* move){
             moveNodes->insertWithoutDuplication(move);
         }
 };
 
 
+//overwritting cout operator for printing Type
 ostream& operator<<(ostream& stream, Type* type) {
   stream << type->id;
   return stream;
 }
-ostream& operator<<( ostream &output, const TypeNode* node)
+//overwritting cout operator for printing TypeNode
+ostream& operator<<( ostream &output, const TypeEdge* node)
 {
     output << node->defence << " :: " << node->multiplier<<endl;
     return output;

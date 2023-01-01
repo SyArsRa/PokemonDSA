@@ -37,7 +37,6 @@ class Hashmap{
                 delete obj;
                 return;
             }
-            cout<<index<<":"<<obj->id;
             Node<type>* nn = new Node<type>();
             nn->data = obj; 
             if(!map[index]){
@@ -45,15 +44,12 @@ class Hashmap{
             }
             else{
                 Node<type>* loc = map[index];
-                cout<<"<<<"<<loc->data->id;
                 //Cycle to the last node
                 while(loc->next){
                     loc = loc->next;
-                    cout<<"<<<"<<loc->data->id;
                 }
                 loc->next = nn; 
             }
-            cout<<endl;
             return;
         }
         //Searching for a type
