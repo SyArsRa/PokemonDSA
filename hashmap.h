@@ -27,9 +27,6 @@ class Hashmap{
         int hashfunction(string value){
             return hashfunc(value) % maxsize;
         }
-        int hashfunction(int value){
-            return hashfunc(value) % maxsize;
-        }
         //Inserting into hashmap
         void insert(type* obj){
             int index = hashfunction(obj->id);
