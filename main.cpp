@@ -4,18 +4,19 @@
 #include "Pokemon.h" 
 #include "hashmap.h"
 #include "Move.h"
-#include "Type.h"
+#include "Type.H"
 #include "Arena.h"
+
 using namespace std;
 
 void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move>* moveData);
 
-int main(){
-    //ideal load factor of 0.75 where load factor = elements inserted into hashmap/buckets so 721/0.75 ~ 962 for pokemons
-    
+int main()
+{
+    //Hashmap of size 962 which is close to the ideal load factor of 75%
     ParserClass* p = new ParserClass();
 
-    // Hashmap over bst for type beacuse it is being accessed again and again
+    // Hashmap over bst for type because it is being accessed again and again
     Hashmap<Type>* typeData = new Hashmap<Type>(24);
     Hashmap<Pokemon>* pokemonData = new Hashmap<Pokemon>(962);
     Hashmap<Move>* moveData = new Hashmap<Move>(811);
@@ -32,7 +33,8 @@ int main(){
 }
 
 //mainMenu of the programn
-void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move>* moveData){
+void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move>* moveData)
+{
     char choice = ' ';
     cout << "\e[1;35mInput '!' to terminate the program anytime.\e[0;37m" << endl;
     while (choice != '!')
@@ -69,10 +71,12 @@ void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move
             cout << "Enter the name of the Pokemon: ";
             getline(cin,name);
             Pokemon* p = pokemonData->search(name);
-            if(p == NULL){
+            if(p == NULL)
+            {
                 cout << "\x1b[31mPokemon not found!\x1b[37m" << endl;
             }
-            else{
+            else
+            {
                 cout << "\x1b[32mPokemon found!\x1b[37m" << endl;
                 cout << "Name: " << p->id << endl;
                 cout << "Type of : " << p->typeOf << endl;
@@ -219,28 +223,32 @@ void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move
         {
             string name1,name2;
 
-            cout << "Enter the name of the Pokemon that is the attacker: ";
+            cout << "Enter name of attacking pokemon: ";
             getline(cin,name1);
 
-            cout << "Enter the name of the Pokemon that is defending: ";
+            cout << "Enter name of defending pokemon: ";
             getline(cin,name2);
             
             Pokemon* p1 = pokemonData->search(name1);
-            if(!p1){
+            if(!p1)
+            {
                 cout << "\x1b[31m"<<name1<<"not found!\x1b[37m" << endl;
                 break;
             }
 
             Pokemon* p2 = pokemonData->search(name2);
-            if(!p2){
+            if(!p2)
+            {
                 cout << "\x1b[31m"<<name2<<" not found!\x1b[37m" << endl; 
                 break;
             }
             
-            if(p1->edges->search(p2)){
+            if(p1->edges->search(p2))
+            {
                 cout << "\e[1;32m" <<p1->id<< " wins against "<<p2->id<< "\e[0;37m" << endl;
             }
-            else{
+            else
+            {
                 cout << "\e[1;31m" <<p1->id<< " does not win against "<<p2->id<< "\e[0;37m" << endl;
             }
 
@@ -255,7 +263,8 @@ void mainMenu(Hashmap<Type>* typeData,Hashmap<Pokemon>* pokemonData,Hashmap<Move
             getline(cin,name);
             
             Pokemon* p = pokemonData->search(name);
-            if(!p){
+            if(!p)
+            {
                 cout << "\x1b[31m"<<name<<" not found!\x1b[37m" << endl;
                 break;
             }
